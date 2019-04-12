@@ -7,7 +7,7 @@ Follow @perennialquotes to see the bot in action!
 ## DISCLAIMER
 * This project is a Proof-of-Concept
 
---
+---
 
 ## Features
 * Scrapes Quote of The Day from the Web
