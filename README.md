@@ -1,5 +1,5 @@
 # PYSTABOT
-_A Fully Automated Instagram Bot_
+_A Fully Automated Instagram Bot_\
 Follow @perennialquotes to see the bot in action!
 
 ---
