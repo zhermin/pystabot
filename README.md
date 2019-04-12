@@ -21,19 +21,19 @@ Follow @perennialquotes to see the bot in action!
 ## NERDY STEPS IN DETAIL (LIBRARIES USED)
 
 1. Quote of The Day
-    a. [beautifulsoup4 / request / urllib] to scrape quote
-    b. [textwrap] to fit the quote onto the image
+    1. [beautifulsoup4 / request / urllib] to scrape quote
+    2. [textwrap] to fit the quote onto the image
 2. Generated JPG Image
-    a. [pillow] to create the image and align everything
+    1. [pillow] to create the image and align everything
 3. Random Hashtags in Caption
-    a. [pandas] to convert csv file of related hashtags into a dataframe
-    b. use pandas' sampling to retrieve 30 random hashtags with the specified categories
+    1. [pandas] to convert csv file of related hashtags into a dataframe
+    2. use pandas' sampling to retrieve 30 random hashtags with the specified categories
 4. Posting on Instagram
-    a. [selenium / chromedriver] to emulate a mobile phone and access instagram's mobile site, which allows photo posting
+    1. [selenium / chromedriver] to emulate a mobile phone and access instagram's mobile site, which allows photo posting
 5. Automated Instagram Interactions (Fairly hard to do on my own)
-    a. [pyautogui] to interact with the limited trial software "combin" that does all the hardwork
-    b. that software is able to like, follow and comment on posts and other advaced search features
-    c. [tkinter] to set up a popup countdown timer after all the searches have finished and ready for interaction
+    1. [pyautogui] to interact with the limited trial software "combin" that does all the hardwork
+    2. that software is able to like, follow and comment on posts and other advaced search features
+    3. [tkinter] to set up a popup countdown timer after all the searches have finished and ready for interaction
 
 ---
 
