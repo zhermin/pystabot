@@ -7,16 +7,18 @@ class AutoInteraction:
 
         self.users = users
         
-        pyautogui.failsafe = True # Force Quit at Top Left Corner with Cursor
+        #pyautogui.failsafe = True # Force Quit at Top Left Corner with Cursor
         os.startfile("C:\\Program Files\\Open Media LLC\\combin\\combin.exe")
         self.createCountdown(30)
 
         pyautogui.getWindow("Combin").minimize()
         pyautogui.getWindow("Combin").maximize()
+        time.sleep(1)
 
         pyautogui.hotkey("alt", "2") # Search Tab
+        time.sleep(1)
         self.searchFunction()
-        self.createCountdown(180)
+        self.createCountdown(500)
         print("USERS LOADED")
         self.likeFollow()
 
@@ -31,7 +33,7 @@ class AutoInteraction:
             pyautogui.click(1400, 700) # User Active Button
             pyautogui.click(1000, 350) # User Active Button
             pyautogui.typewrite(user) # Type Username
-            time.sleep(2) # Wait for Correct User to Show Up
+            time.sleep(3) # Wait for Correct User to Show Up
             pyautogui.click(1000, 380) # Correct User
             pyautogui.press("enter")
 

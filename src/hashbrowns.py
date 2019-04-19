@@ -6,7 +6,7 @@ class RandomCaption:
     def __init__(self): # reads hashtag csv file using pandas
 
         print("Reading the CSV File [hashlist.csv]..")
-        df = pd.read_csv("assets\\hashlist.csv")
+        df = pd.read_csv("C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\assets\\hashlist.csv")
 
         generalTags = df[df.category == "general"].sample(10)
         motivationTags = df[df.category == "motivation"].sample(10)

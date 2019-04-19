@@ -15,7 +15,7 @@ class ShareInstaPost:
         chrome_options.add_argument('--user-agent="Mozilla/5.0 (Linux; Android 9; SM-G955F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.90 Mobile Safari/537.36"')
         chrome_options.add_argument("user-data-dir=C:\\Users\\ZM\\AppData\\Local\\Google\\Chrome\\User Data Auto\\Profile 1")
         
-        self.driver = webdriver.Chrome(executable_path="assets\\chromedriver.exe", options=chrome_options)
+        self.driver = webdriver.Chrome(executable_path="C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\assets\\chromedriver.exe", options=chrome_options)
 
         self.driver.set_window_position(-2000,0)
 

@@ -7,16 +7,16 @@ class CreatePost:
     
     def __init__(self): # initialize landscape [0] / portrait [1]
 
-        self.postFolder = f"{os.getcwd()}\\posts\\"
-        self.totalPost = len(os.listdir(self.postFolder))
+        self.postFolder = "C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\"
+        self.totalPost = len(os.listdir(f"{self.postFolder}posts"))
         self.num = self.totalPost % 2
         print(f"[POST {self.totalPost+1}]")
 
-        self.fileName = f"{self.postFolder}instapost_{self.totalPost+1}.jpg"
+        self.fileName = f"{self.postFolder}posts\\instapost_{self.totalPost+1}.jpg"
 
         self.winW = self.winH = 1000
         self.colors = [(240,240,240), (40,40,40)]
-       
+
         if self.num == 0: # PORTRAIT
             self.bgColor = self.colors[self.num+1]
             self.accentColor = self.colors[self.num]
@@ -40,11 +40,11 @@ class CreatePost:
     def checkQuote(self):
 
         try: # check if file exist, if it doesn't, create it
-            readquotes = open("assets\\allquotes.txt", "r", errors="ignore")
+            readquotes = open(f"{self.postFolder}assets\\allquotes.txt", "r", errors="ignore")
             allquoteslist = readquotes.read().split("\n")
             readquotes.close()
         except:
-            createtxt = open("assets\\allquotes.txt", "a")
+            createtxt = open(f"{self.postFolder}assets\\allquotes.txt", "a")
             createtxt.close()
 
         self.fulltext = f"{self.quote} - {self.author}"
@@ -55,7 +55,7 @@ class CreatePost:
         else:
             print("SUCCESSFULLY SCRAPED QUOTE")
             print(f"[{self.fulltext}]")
-            appendquotes = open("assets\\allquotes.txt", "a", errors="ignore")
+            appendquotes = open(f"{self.postFolder}assets\\allquotes.txt", "a", errors="ignore")
             appendquotes.write(f"{self.fulltext}\n")
             appendquotes.close()
 
@@ -125,9 +125,9 @@ class CreatePost:
         # self.draw.rectangle([self.winW/2-dash/2, self.winH-275, self.winW/2+dash/2, self.winH-275+3], fill=self.accentColor)
 
         if self.num == 0: # PORTRAIT
-            logo = Image.open("assets\\hourglass_portrait.png", "r")
+            logo = Image.open(f"{self.postFolder}assets\\hourglass_portrait.png", "r")
         else: # LANDSCAPE
-            logo = Image.open("assets\\hourglass_landscape.png", "r")
+            logo = Image.open(f"{self.postFolder}assets\\hourglass_landscape.png", "r")
         
         logo = logo.resize((50,85), Image.ANTIALIAS)
         logoW,logoH = logo.size

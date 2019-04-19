@@ -1,6 +1,6 @@
 # PYSTABOT
 _A Fully Automated Instagram Bot_\
-Follow @perennialquotes to see the bot in action!
+Follow @perennialquotes on Instagram to see the bot in action!
 
 ---
 
@@ -34,6 +34,8 @@ Follow @perennialquotes to see the bot in action!
     1. [pyautogui] to interact with the limited trial software "combin" that does all the hardwork
     2. that software is able to like, follow and comment on posts and other advaced search features
     3. [tkinter] to set up a popup countdown timer after all the searches have finished and ready for interaction
+6. Runs Daily
+    1. [windows task scheduler] to run the script daily
 
 ---
 

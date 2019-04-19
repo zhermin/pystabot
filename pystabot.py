@@ -17,7 +17,7 @@ ShareInstaPost(logindetails[0], logindetails[1], myCaption, myPost, mySource).sh
 users = [
     "philosophy.quote",
     "philosophybreak",
-    "stoicgorilla",
+    "quotes.of.thoughts",
     "orion_philosophy",
     "theinvincibleway",
     "tinkling.quotes",
