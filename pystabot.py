@@ -1,4 +1,4 @@
-import time, os
+import time, os, random
 from src.pillowtalk import CreatePost
 from src.hashbrowns import RandomCaption
 from src.adamantium import ShareInstaPost
@@ -14,15 +14,22 @@ logindetails = getlogin.read().split("\n")
 getlogin.close()
 ShareInstaPost(logindetails[0], logindetails[1], myCaption, myPost, mySource).sharePost()
 
-users = [
+users = random.sample([
     "philosophy.quote",
-    "philosophybreak",
+    "quotesndnotes",
     "quotes.of.thoughts",
     "orion_philosophy",
-    "theinvincibleway",
+    "just.lifequotes",
     "tinkling.quotes",
-    "life_through_quote"
-]
+    "life_through_quote",
+    "quotewagon",
+    "quotesndnotes",
+    "quoteswithpositivity",
+    "__quotesworld__",
+    "quotes_textbook",
+    "positive.inspirational.quotes",
+    "broken_quotes_143",
+],8)
 
 print("Automating Interaction using Combin..")
 AutoInteraction(users)

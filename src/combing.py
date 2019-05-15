@@ -1,4 +1,4 @@
-import pyautogui, time, os
+import pyautogui, time, os, random
 import tkinter as tk
 
 class AutoInteraction:
@@ -28,14 +28,19 @@ class AutoInteraction:
         for user in self.users:
 
             pyautogui.click(240, 140) # Add Search Button
+            time.sleep(.5)
             pyautogui.click(1170, 150) # Users Button
+            time.sleep(.5)
             pyautogui.click(1400, 680) # Advanced Search
+            time.sleep(.5)
             pyautogui.click(1400, 700) # User Active Button
-            pyautogui.click(1000, 350) # User Active Button
+            time.sleep(.5)
+            pyautogui.click(1000, 350) # Username Field
+            time.sleep(.5)
             pyautogui.typewrite(user) # Type Username
-            time.sleep(3) # Wait for Correct User to Show Up
+            time.sleep(2.5) # Wait for Correct User to Show Up
             pyautogui.click(1000, 380) # Correct User
-            pyautogui.press("enter")
+            pyautogui.click(1020, 640) # Enter Button
 
         pyautogui.getWindow("Combin").minimize()
         print("Waiting for all users to load finish..")
@@ -55,9 +60,10 @@ class AutoInteraction:
 
         for i in range(len(self.users)): # User Follow + Like Last 3
             pyautogui.click(240, 245+i*70) # Search Bar
-            pyautogui.click(1200, 1030) # Follow Button
-            pyautogui.press("enter")
-            pyautogui.click(1090, 1030) # Like Last 3 Posts Button
+            pyautogui.click(1200, 1050) # Follow Button
+            time.sleep(1)
+            pyautogui.click(1090, 1050) # Like Last 3 Posts Button
+            time.sleep(1)
             pyautogui.press("enter")
 
         print("INTERACTION COMPLETED")
@@ -130,4 +136,20 @@ class CountdownPopup:
         self.master.destroy()
 
 if __name__ == "__main__":
-    AutoInteraction(["philosophy.quote"])
+    users = random.sample([
+    "philosophy.quote",
+    "quotesndnotes",
+    "quotes.of.thoughts",
+    "orion_philosophy",
+    "just.lifequotes",
+    "tinkling.quotes",
+    "life_through_quote",
+    "quotewagon",
+    "quotesndnotes",
+    "quoteswithpositivity",
+    "__quotesworld__",
+    "quotes_textbook",
+    "positive.inspirational.quotes",
+    "broken_quotes_143",
+    ],8)
+    AutoInteraction(users)

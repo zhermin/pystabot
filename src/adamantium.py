@@ -3,8 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
-pyautogui.failsafe = True # Force Quit at Top Left Corner with Cursor
-
 class ShareInstaPost:
 
     def __init__(self, profilename, mypassword, hashtags, filename, source):
@@ -24,92 +22,127 @@ class ShareInstaPost:
         self.hashtags = hashtags
         self.filename = filename
         self.source = source
+        self.correctpassword = None
 
-    def tryLogin(self): # access instagram and find login button
+    def postMockup(self):
 
-        print("Accessing Instagram..")
-        self.driver.get("https://instagram.com/")
-
-        login = None
-        noLogin = 0
-        while not login:
+        while True:
             try:
-                print("Trying to find Login Button..")
-                login = self.driver.find_element_by_link_text("Log in")
-                print("FOUND LOGIN BUTTON")
-                login.click()
-                self.loginPage()
+                self.timeout = 0
+                print("Accessing Instagram..")
+                self.driver.get("https://instagram.com/perennialquotes")
+
+                time.sleep(2)
+                self.checkInternet()
+                self.checkIfLoggedIn()
+                self.checkUploadWindow()
+                self.writeCaption()
+                print("Preparing to Post..")
+                break
             except:
-                time.sleep(.5)
-                if noLogin != 3:
-                    noLogin += 1
-                    continue
-                else:
-                    print("ALREADY LOGGED IN")
-                    break
+                print("MOCKUP TIMEOUT : RESTARTING SCRIPT")
+                continue
 
-    def loginPage(self): # key in username and password
+    def checkInternet(self):
 
-        loginURL = self.driver.current_url
-        while self.driver.current_url == loginURL:
+        print("Checking for Internet Connection..")
+        nointernet = None
+        while not nointernet:
+            try:
+                nointernet = self.driver.find_element_by_xpath("//span[contains(text(), 'No internet')]")
+                print("NO INTERNET")
+                break
+            except:
+                print("Internet Connection Established")
+                return
 
-            usernamebtn = passwordbtn = None
-            while not usernamebtn or not passwordbtn:
-                try:
-                    print("Trying to find Username/Password Fields..")
-                    usernamebtn = self.driver.find_element_by_name("username")
-                    passwordbtn = self.driver.find_element_by_name("password")
-                    print("FOUND USERNAME/PASSWORD FIELDS")
-                    usernamebtn.send_keys(self.profilename)
-                    passwordbtn.send_keys(self.mypassword)
-                    passwordbtn.send_keys(Keys.ENTER)
-                except:
-                    time.sleep(1)
-                    continue
+        raise Exception
 
-                try:
-                    time.sleep(2)
-                    passwordbtn = self.driver.find_element_by_name("password")
-                    print("WRONG PASSWORD")
-                    self.tryLogin()
-                    continue
-                except:
-                    print("PASSWORD ACCEPTED")
-                    print("Logging In..")
-
-    def newInstaPost(self): # click on new post button
+    def checkIfLoggedIn(self):
 
         newpostbtn = None
         while not newpostbtn:
             try:
-                print("Redirecting to Profile Page..")
-                self.driver.get(f"https://instagram.com/{self.profilename}/")
-                print("Finding the New Post Button..")
+                print("Checking if Logged In by finding the New Post Button..")
                 newpostbtn = self.driver.find_element_by_xpath("//span[@aria-label='New Post']")
-                print("FOUND THE NEW POST BUTTON")
+                print("LOGGED IN : FOUND THE NEW POST BUTTON")
                 newpostbtn.click()
+                return
             except:
-                time.sleep(1)
-                continue
+                if self.timeout == 20:
+                    print("TIMEOUT : UNABLE TO FIND NEW POST BUTTON")
+                    raise Exception
+                else:
+                    time.sleep(1)
+                    self.timeout += 1
+                    self.newLogin()
 
-    def uploadPost(self): # type in new post's file name and proceed to caption
+    def newLogin(self):
+
+        print("NOT LOGGED IN YET")
+        try:
+            print("Trying to find Login Button..")
+            login = self.driver.find_element_by_link_text("Log in")
+            print("FOUND LOGIN BUTTON")
+            login.click()
+        except:
+            print("Can't find Login Button")
+            return
+
+        loginURL = self.driver.current_url
+        usernamebtn = passwordbtn = None
+        try:
+            print("Trying to find Username/Password Fields..")
+            usernamebtn = self.driver.find_element_by_name("username")
+            passwordbtn = self.driver.find_element_by_name("password")
+            print("FOUND USERNAME/PASSWORD FIELDS")
+            usernamebtn.send_keys(self.profilename)
+
+            if len(self.correctpassword) > 0:
+                self.mypassword = self.correctpassword
+
+            passwordbtn.send_keys(self.mypassword)
+            passwordbtn.send_keys(Keys.ENTER)
+            time.sleep(2)
+        except:
+            print("Can't find the fields")
+            time.sleep(1)
+            return
+
+        if self.driver.current_url == loginURL:
+            try:
+                passwordbtn = self.driver.find_element_by_name("password")
+                print("WRONG PASSWORD")
+                self.correctpassword = input("Type in the Correct Password >> ")
+            except:
+                print("PASSWORD ACCEPTED")
+
+        return
+
+    def checkUploadWindow(self):
 
         postnextbtn = None
         while not postnextbtn:
             try:
                 postnextbtn = self.driver.find_element_by_xpath("//button[contains(text(), 'Next')]")
                 print("FILE UPLOADED SUCCESSFULLY")
-                print("FOUND THE NEXT BUTTON")
                 postnextbtn.click()
+                return
             except:
-                print("Trying to Upload the File, make sure the Window is in Focus..")
-                time.sleep(1)
-                pyautogui.typewrite(str(self.filename))
-                pyautogui.press('enter')
-                time.sleep(.5)
-                continue
+                if self.timeout == 20:
+                    print("TIMEOUT : UNABLE TO UPLOAD IMAGE")
+                    raise Exception
+                else:
+                    time.sleep(1)
+                    self.timeout += 1
 
-    def writeCaption(self): # key in whole chunk of caption + hashtags
+                print("Trying to Upload the File, make sure the Window is in Focus..")
+                time.sleep(1.5)
+                pyautogui.typewrite(str(self.filename))
+                time.sleep(.5)
+                pyautogui.press('enter')
+
+    def writeCaption(self):
 
         captionbtn = None
         now = datetime.datetime.now().strftime("%H%M%d%m%y")
@@ -127,15 +160,37 @@ class ShareInstaPost:
 
         while not captionbtn:
             try:
-                print("Trying to find Caption textbox..")
+                print("Trying to find Caption Textbox..")
                 captionbtn = self.driver.find_element_by_tag_name("textarea")
                 print("FOUND THE CAPTION TEXTBOX")
                 captionbtn.send_keys(Keys.CONTROL, "v")
-                print("Preparing to Post..")
+                return
             except:
+                if self.timeout == 20:
+                    print("TIMEOUT : UNABLE TO FIND CAPTION BOX")
+                    raise Exception
+                else:
+                    time.sleep(1)
+                    self.timeout += 1
+
+    def sharePost(self):
+        
+        while True:
+            try:
+                self.timeout = 0
+                self.postMockup()
+                self.checkShareBtn()
+                self.checkSuccess()
+
+                print("Shutting Down Browser..")
+                self.driver.quit()
+                print("CODE SELF-DESTRUCTED")
+                break
+            except:
+                print("POST TIMEOUT : RESTARTING SCRIPT")
                 continue
 
-    def findShareBtn(self): # finding the share button
+    def checkShareBtn(self):
 
         postsharebtn = None
         while not postsharebtn:
@@ -145,49 +200,31 @@ class ShareInstaPost:
                 print("FOUND THE SHARE BUTTON")
                 self.sharepageURL = self.driver.current_url
                 postsharebtn.click()
+                return
             except:
-                continue
+                if self.timeout == 20:
+                    print("TIMEOUT : UNABLE TO FIND THE SHARE BUTTON")
+                    raise Exception
+                else:
+                    time.sleep(1)
+                    self.timeout += 1
 
-    def postMockup(self):
+    def checkSuccess(self):
 
-        self.tryLogin()
-        self.newInstaPost()
-        self.uploadPost()
-        self.writeCaption()
-        self.findShareBtn()
-
-    def postSuccess(self): # check and see if the post managed to be shared
-
-        postTimeout = 0
         while True:
-            if postTimeout >= self.timeoutValue:
-                return postTimeout
-            
+            if self.timeout == 20:
+                print("TIMEOUT : UNABLE TO POST ON INSTAGRAM")
+                raise Exception
+
             if self.driver.current_url == self.sharepageURL:
                 print("Posting to Instagram..")
                 time.sleep(1)
-                postTimeout += 1
-                continue
-            else:
-                return postTimeout
-
-    def sharePost(self):
-
-        while True:
-            self.postMockup()
-
-            self.timeoutValue = 30
-            postTimeout = self.postSuccess()
-            if postTimeout >= self.timeoutValue:
-                print("Post Timeout, Retrying..")
+                self.timeout += 1
                 continue
             else:
                 print("POST SHARED SUCCESSFULLY")
-                break
+                return
 
-        print("Shutting Down Browser..")
-        self.driver.quit()
-        print("CODE SELF-DESTRUCTED")
 
 if __name__ == "__main__":
-    ShareInstaPost("antivnti", "", "#test", f"{os.getcwd()}\\posts\\instapost_1.jpg", "O").sharePost()
+    ShareInstaPost("antivnti", "", "#test", f"C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\posts\\instapost_1.jpg", "O").postMockup()
