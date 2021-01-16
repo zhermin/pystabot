@@ -1,4 +1,8 @@
 # PYSTABOT
+**Note: This project has been discontinued due to changes to Instagram's policies and APIs**
+
+---
+
 _A Fully Automated Instagram Bot_\
 Follow @perennialquotes on Instagram to see the bot in action!
 
