@@ -29,10 +29,10 @@ class CreatePost:
         self.img = Image.new("RGB", (self.winW,self.winH), color=self.bgColor)
         self.draw = ImageDraw.Draw(self.img)
 
-    def requestText(self, quote_url): # use Request library to access quote website
+    def requestText(self, scrapeURL): # use Request library to access quote website
 
-        print(f"Scraping Quote from [{quote_url}]..")
-        req = Request(quote_url, headers={'User-Agent': 'Mozilla/5.0'})
+        print(f"Scraping Quote from [{scrapeURL}]..")
+        req = Request(scrapeURL, headers={'User-Agent': 'Mozilla/5.0'})
         page_html = urlopen(req).read()
         urlopen(req).close()
         self.page_soup = soup(page_html, "html.parser")

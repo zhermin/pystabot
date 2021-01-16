@@ -31,9 +31,9 @@ users = random.sample([
     "broken_quotes_143",
 ],8)
 
-print("Automating Interaction using Combin..")
-AutoInteraction(users)
-print("COMBIN WILL NOW RUN IN THE BACKGROUND")
+# print("Automating Interaction using Combin..")
+# AutoInteraction(users)
+# print("COMBIN WILL NOW RUN IN THE BACKGROUND")
 
 print("\n[PYSTABOT TERMINATED]")
 print("{} seconds".format(time.time() - starttime))

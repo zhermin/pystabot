@@ -2,6 +2,7 @@ import datetime, time, pyautogui, pyperclip, os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from hashbrowns import RandomCaption
 
 class ShareInstaPost:
 
@@ -10,12 +11,12 @@ class ShareInstaPost:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--disable-extensions")
         
-        chrome_options.add_argument('--user-agent="Mozilla/5.0 (Linux; Android 9; SM-G955F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.90 Mobile Safari/537.36"')
+        chrome_options.add_argument('--user-agent="Mozilla/5.0 (Linux; Android 9; SM-G955F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Mobile Safari/537.36"')
         chrome_options.add_argument("user-data-dir=C:\\Users\\ZM\\AppData\\Local\\Google\\Chrome\\User Data Auto\\Profile 1")
         
         self.driver = webdriver.Chrome(executable_path="C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\assets\\chromedriver.exe", options=chrome_options)
 
-        self.driver.set_window_position(-2000,0)
+        #self.driver.set_window_position(-2000,0)
 
         self.profilename = profilename
         self.mypassword = mypassword
@@ -141,6 +142,7 @@ class ShareInstaPost:
                 pyautogui.typewrite(str(self.filename))
                 time.sleep(.5)
                 pyautogui.press('enter')
+                time.sleep(3)
 
     def writeCaption(self):
 
@@ -227,4 +229,11 @@ class ShareInstaPost:
 
 
 if __name__ == "__main__":
-    ShareInstaPost("antivnti", "", "#test", f"C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\posts\\instapost_1.jpg", "O").postMockup()
+    #postFolder = "C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\"
+    totalPost = len(os.listdir(f"C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\posts"))
+    num = totalPost % 2
+    print(f"[POST {totalPost+1}]")
+
+    fileName = f"C:\\Users\\ZM\\Desktop\\CODE\\pystabot\\posts\\instapost_{totalPost+1}.jpg"
+    myCaption = RandomCaption().getCaption()
+    ShareInstaPost("antivnti", "", myCaption, fileName, "SELF").sharePost()
