@@ -4,7 +4,7 @@
 ---
 
 _A Fully Automated Instagram Bot_\
-Follow @perennialquotes on Instagram to see the bot in action!
+Follow [@perennialquotes](https://www.instagram.com/perennialquotes/) on Instagram to see the bot in action!
 
 ---
 
